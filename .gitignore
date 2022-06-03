@@ -1,0 +1,20 @@
+/cache
+/node_modules
+/out
+_pycache__
+.history
+.hypothesis/
+build/
+reports/
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+# Ignore flattened files
+flattened.txt
+.envrc
+.direnv/
+.ipynb_checkpoints/

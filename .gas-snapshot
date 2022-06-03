@@ -1,0 +1,4 @@
+SampleContractTest:testFunc1() (gas: 534539)
+SampleContractTest:testFunc2() (gas: 534486)
+SampleVyperContractTest:testFunc1() (gas: 431480)
+SampleVyperContractTest:testFunc2() (gas: 431472)
