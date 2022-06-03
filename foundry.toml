@@ -1,7 +1,7 @@
 [default]
 solc = "0.8.13"
 bytecode_hash = "none"
-optimizer_runs = 100000
+optimizer_runs = 1
 
 [intense]
-fuzz_runs = 10000
+fuzz_runs = 1

@@ -18,6 +18,8 @@ contract ERC721CreatorMock is ERC721Creator {
 
 interface ISaleExtension {
     function mint() external payable;
+    function setBaseTokenURI(string calldata uri) external;
+    function withdraw() external;
 }
 
 contract SaleExtensionTest is Test {
@@ -34,10 +36,13 @@ contract SaleExtensionTest is Test {
 
     function setUp() public {
         token = new ERC721CreatorMock();
+
+        vm.startPrank(eve);
         extensionAddress = deployCode(
             vyperArtifact,
             abi.encode(101, address(token))
         );
+        vm.stopPrank();
 
         extension = ISaleExtension(extensionAddress);
 
@@ -96,6 +101,55 @@ contract SaleExtensionTest is Test {
             assertEq(token.ownerOf(amount), bob);
           }
         }
+
+    }
+
+    function testSetBaseTokenURI(string calldata uri) public {
+
+      vm.prank(bob);
+      extension.mint();
+
+      if ((keccak256(bytes(uri)) == keccak256(bytes("\\0"))) || bytes(uri).length > 1024 || bytes(uri).length == 0) {
+          vm.expectRevert();
+      }
+
+      extension.setBaseTokenURI(uri);
+
+      vm.prank(bob);
+      vm.expectRevert();
+      extension.setBaseTokenURI("notallowed");
+
+      assertEq(token.ownerOf(1), bob);
+
+      if ((keccak256(bytes(uri)) == keccak256(bytes("\\0"))) || bytes(uri).length > 1024 || bytes(uri).length == 0) {
+        assertEq(token.tokenURI(1), "uri/1");
+      }else {
+        assertEq(token.tokenURI(1),string(abi.encodePacked( uri,"1")));
+      }
+    }
+
+    function testWithdraw(uint256 amount) public {
+      vm.deal(bob, amount);
+
+      vm.startPrank(bob);
+
+      extension.mint{value: amount}();
+      vm.expectRevert();
+      extension.withdraw();
+
+      vm.stopPrank();
+
+      assertEq(address(extension).balance, amount);
+
+      vm.startPrank(eve);
+
+      extension.withdraw();
+
+      vm.stopPrank();
+
+      assertEq(address(extension).balance, 0);
+      assertEq(address(eve).balance, amount);
+
 
     }
 }
