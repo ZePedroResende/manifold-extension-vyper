@@ -1,0 +1,7 @@
+@manifoldxyz/creator-core-extensions-solidity/contracts/=lib/creator-core-extensions-solidity/contracts/
+@manifoldxyz/creator-core-solidity/contracts/=lib/creator-core-solidity/contracts/
+ds-test/=lib/forge-std/lib/ds-test/src/
+forge-std/=lib/forge-std/src/
+@manifoldxyz/libraries-solidity/contracts/=lib/libraries-solidity/contracts/
+@openzeppelin/contracts=lib/openzeppelin-contracts/contracts/
+@openzeppelin/contracts-upgradeable=lib/openzeppelin-contracts-upgradeable/contracts/
